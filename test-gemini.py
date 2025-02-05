@@ -1,18 +1,16 @@
 import google.generativeai as genai
-import time
-import os
 
-# Set up the API key from an environment variable
-api_key = ""
+# Set up the API key
+api_key = "AIzaSyC-sBXY8Jsg758ypFm-BgVKsumypNjpLu4"
 if not api_key:
     raise ValueError("API key not found. Please set the GOOGLE_GENERATIVEAI_API_KEY environment variable.")
 
 genai.configure(api_key=api_key)
 
-# Initialize the model
-model = genai.GenerativeModel("gemini-pro")
+# Initialize the model with temperature
+model = genai.GenerativeModel("gemini-pro", generation_config={"temperature": 0.7})
 
-# Function to send a request and handle rate limiting
+# Function to send a request
 def send_request(prompt):
     try:
         response = model.generate_content(prompt)
@@ -21,8 +19,7 @@ def send_request(prompt):
         print(f"Error: {e}")
         return None
 
-# Send the request 100 times with error handling and rate limiting
-
-response = send_request("what is the capital of France")
+# Send a request
+response = send_request("What is the capital of France?")
 if response:
-    print(f"Response : {response}")
+    print(f"Response: {response}")

@@ -5,14 +5,14 @@ import numpy as np
 import google.generativeai as genai
 
 # Set up the API key from an environment variable
-api_key = ""
+api_key = "AIzaSyC-sBXY8Jsg758ypFm-BgVKsumypNjpLu4"
 if not api_key:
     raise ValueError("API key not found. Please set the GOOGLE_GENERATIVEAI_API_KEY environment variable.")
 
 genai.configure(api_key=api_key)
 
 # Initialize the model
-model = genai.GenerativeModel("gemini-pro")
+model = genai.GenerativeModel("gemini-pro", generation_config={"temperature": 0.1})
 
 # Function to extract text from PDF
 def extract_text_from_pdf(pdf_path):
@@ -68,6 +68,6 @@ def rag_from_pdf(pdf_path, query):
 
 # Example usage
 pdf_path = '1-mvr-part-4-jan25.pdf'
-query = 'What is the main topic or the main idea of this document'
+query = 'give me precise resume of this document and mention all priciple subsections'
 response = rag_from_pdf(pdf_path, query)
 print(f"Response: {response}")
