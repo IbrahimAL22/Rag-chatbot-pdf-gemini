@@ -3,7 +3,7 @@ import time
 import os
 
 # Set up the API key from an environment variable
-api_key = "AIzaSyC-sBXY8Jsg758ypFm-BgVKsumypNjpLu4"
+api_key = ""
 if not api_key:
     raise ValueError("API key not found. Please set the GOOGLE_GENERATIVEAI_API_KEY environment variable.")
 
