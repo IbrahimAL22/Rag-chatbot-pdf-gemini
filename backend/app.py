@@ -1,6 +1,7 @@
 import os
 import PyPDF2
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
@@ -12,6 +13,8 @@ genai.configure(api_key="AIzaSyC-sBXY8Jsg758ypFm-BgVKsumypNjpLu4")
 model = genai.GenerativeModel("gemini-2.0-flash-001", generation_config={"temperature": 0.7})
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
+
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -74,15 +77,15 @@ def generate_response(query, relevant_chunks):
 def upload_pdf():
     if 'file' not in request.files:
         return jsonify({"error": "No file uploaded"}), 400
-    
+
     file = request.files['file']
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
-    
+
     filename = secure_filename(file.filename)
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(file_path)
-    
+
     return jsonify({"message": "File uploaded successfully", "file_path": file_path})
 
 @app.route('/query', methods=['POST'])
@@ -90,17 +93,17 @@ def query_pdf():
     data = request.get_json()
     pdf_path = data.get("file_path")
     query = data.get("query")
-    
+
     if not pdf_path or not query:
         return jsonify({"error": "Missing file path or query"}), 400
-    
+
     text = extract_text_from_pdf(pdf_path)
     chunks = chunk_text(text)
     embeddings = embed_text_chunks(chunks)
     index = store_embeddings(embeddings)
     relevant_chunks = retrieve_relevant_chunks(query, index, embeddings, chunks)
     response = generate_response(query, relevant_chunks)
-    
+
     return jsonify({"response": response})
 
 if __name__ == '__main__':

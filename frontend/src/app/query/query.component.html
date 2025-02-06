@@ -1,0 +1,10 @@
+<div class="chat-container">
+    <div class="chat-box">
+      <div *ngFor="let message of messages" class="message {{ message.sender.toLowerCase() }}">
+        <strong>{{ message.sender }}:</strong> {{ message.text }}
+      </div>
+    </div>
+    <textarea [(ngModel)]="query" placeholder="Type your message..."></textarea>
+    <button (click)="sendQuery()">Send</button>
+  </div>
+  
