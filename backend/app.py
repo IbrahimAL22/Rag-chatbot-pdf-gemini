@@ -24,6 +24,11 @@ embedder = SentenceTransformer('all-MiniLM-L6-v2')
 # Store last 10 queries and responses
 history = []
 
+# Store embeddings and FAISS index globally
+embeddings = None
+index = None
+chunks = None
+
 # Function to extract text from PDF
 def extract_text_from_pdf(pdf_path):
     with open(pdf_path, 'rb') as file:
@@ -75,6 +80,8 @@ def generate_response(query, relevant_chunks):
 
 @app.route('/upload', methods=['POST'])
 def upload_pdf():
+    global embeddings, index, chunks
+
     if 'file' not in request.files:
         return jsonify({"error": "No file uploaded"}), 400
 
@@ -86,21 +93,21 @@ def upload_pdf():
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(file_path)
 
-    return jsonify({"message": "File uploaded successfully", "file_path": file_path})
+    text = extract_text_from_pdf(file_path)
+    chunks = chunk_text(text)
+    embeddings = embed_text_chunks(chunks)
+    index = store_embeddings(embeddings)
+
+    return jsonify({"message": "File uploaded and processed successfully", "file_path": file_path})
 
 @app.route('/query', methods=['POST'])
 def query_pdf():
     data = request.get_json()
-    pdf_path = data.get("file_path")
     query = data.get("query")
 
-    if not pdf_path or not query:
-        return jsonify({"error": "Missing file path or query"}), 400
+    if not query:
+        return jsonify({"error": "Missing query"}), 400
 
-    text = extract_text_from_pdf(pdf_path)
-    chunks = chunk_text(text)
-    embeddings = embed_text_chunks(chunks)
-    index = store_embeddings(embeddings)
     relevant_chunks = retrieve_relevant_chunks(query, index, embeddings, chunks)
     response = generate_response(query, relevant_chunks)
 
