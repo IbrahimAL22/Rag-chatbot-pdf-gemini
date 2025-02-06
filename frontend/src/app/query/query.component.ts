@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PdfService } from '../pdf.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class QueryComponent {
   query: string = '';
   messages: { sender: string, text: string }[] = [];
 
-  constructor(private pdfService: PdfService) { }
+  constructor(private pdfService: PdfService, private router: Router) { }
 
   sendQuery() {
     const filePath = localStorage.getItem('pdfFilePath');
@@ -31,5 +32,9 @@ export class QueryComponent {
         }
       );
     }
+  }
+
+  returnToUploadPage() {
+    this.router.navigate(['/upload']);
   }
 }

@@ -1,10 +1,21 @@
-<div class="chat-container">
-    <div class="chat-box">
-      <div *ngFor="let message of messages" class="message {{ message.sender.toLowerCase() }}">
-        <strong>{{ message.sender }}:</strong> {{ message.text }}
+<div class="chat-container p-4 bg-gray-100 rounded-lg shadow-md">
+    <div class="chat-box mb-4">
+      <div *ngFor="let message of messages" class="message p-2 mb-2 rounded-lg"
+           [ngClass]="{'bg-blue-200': message.sender.toLowerCase() === 'user', 'bg-gray-200': message.sender.toLowerCase() === 'bot'}">
+        <strong class="font-semibold">{{ message.sender }}:</strong> {{ message.text }}
       </div>
     </div>
-    <textarea [(ngModel)]="query" placeholder="Type your message..."></textarea>
-    <button (click)="sendQuery()">Send</button>
+    <textarea [(ngModel)]="query" placeholder="Type your message..."
+              class="w-full p-2 mb-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+    <div class="flex justify-between">
+      <button (click)="sendQuery()"
+              class="px-4 py-2 mr-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        Send
+      </button>
+      <button (click)="returnToUploadPage()"
+              class="px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+        Edit PDF
+      </button>
+    </div>
   </div>
   
