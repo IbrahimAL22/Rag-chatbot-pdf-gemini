@@ -20,6 +20,12 @@ export class UploadComponent {
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
+    if (this.selectedFile) {
+      const fileNameElement = document.getElementById('fileName');
+      if (fileNameElement) {
+        fileNameElement.textContent = this.selectedFile.name;
+      }
+    }
   }
 
   uploadFile() {

@@ -1,0 +1,89 @@
+.container {
+    padding-left: 2cm;
+    padding-right: 2cm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .card {
+    width: calc(100vw - 4cm); /* Set a fixed width for the card */
+    max-width: 100%; /* Ensure the card doesn't exceed the container width */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  }
+  
+  .message-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Default to left */
+    margin-bottom: 0.5em;
+  }
+  
+  .user-message {
+    justify-content: flex-end; /* Align user messages to the right */
+  }
+  
+  .bot-message {
+    justify-content: flex-start; /* Align bot messages to the left */
+  }
+  
+  .message {
+    display: flex;
+    align-items: center;
+    max-width: 75%; /* Limit message width for better alignment */
+    word-wrap: break-word; /* Ensure long words break */
+    border-radius: 8px;
+    padding: 0.5em 1em;
+    position: relative; /* Allow absolute positioning of icons */
+  }
+  
+  .message-container .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2em; /* Fixed width for the icon */
+    height: 2em; /* Fixed height for the icon */
+  }
+  
+  .message-container .bot-icon {
+    margin-right: 0.5em; /* Space between icon and text for bot messages */
+  }
+  
+  .message-container .user-icon {
+    margin-left: 0.5em; /* Space between icon and text for user messages */
+  }
+  
+  .message .message-text {
+    flex: 1; /* Allow the text to take up available space */
+  }
+  
+  .input-container {
+    display: flex;
+    align-items: center; /* Align items vertically centered */
+    width: 100%;
+  }
+  
+  .input-container .input {
+    flex: 1; /* Allow the input to expand and take up available space */
+    height: 2.5em; /* Match the height of the button */
+    border-radius: 4px 0 0 4px; /* Rounded corners for the input */
+    padding: 0.5em; /* Adjust padding for better alignment */
+    border: 1px solid #dbdbdb; /* Add border to match Bulma's input style */
+    margin-right: 0.5em; /* Add small space between input and button */
+  }
+  
+  .input-container .send-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5em; /* Match the height of the input */
+    border-radius: 0 4px 4px 0; /* Rounded corners for the button */
+    padding: 0.5em; /* Adjust padding for better alignment */
+    width: 3em; /* Fixed width for the button */
+  }
+  
+  .input-container .send-button .icon {
+    height: 1.5em; /* Adjust the icon size as needed */
+    width: auto;
+  }
+  

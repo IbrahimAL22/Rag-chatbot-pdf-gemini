@@ -1,21 +1,40 @@
-<div class="chat-container p-4 bg-gray-100 rounded-lg shadow-md">
-    <div class="chat-box mb-4">
-      <div *ngFor="let message of messages" class="message p-2 mb-2 rounded-lg"
-           [ngClass]="{'bg-blue-200': message.sender.toLowerCase() === 'user', 'bg-gray-200': message.sender.toLowerCase() === 'bot'}">
-        <strong class="font-semibold">{{ message.sender }}:</strong> {{ message.text }}
+<div class="container">
+  <!-- PDF Info Card -->
+  <div class="card mb-4">
+    <div class="card-content">
+      <div class="content has-text-centered">
+        <p class="title is-4">{{ pdfName }}</p>
+        <button (click)="changePdf()" class="button is-warning">Change PDF</button>
       </div>
     </div>
-    <textarea [(ngModel)]="query" placeholder="Type your message..."
-              class="w-full p-2 mb-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-    <div class="flex justify-between">
-      <button (click)="sendQuery()"
-              class="px-4 py-2 mr-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        Send
-      </button>
-      <button (click)="returnToUploadPage()"
-              class="px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
-        Edit PDF
-      </button>
+  </div>
+
+  <!-- Chat Card -->
+  <div class="card">
+    <div class="card-content">
+      <div class="chat-box mb-4">
+        <div *ngFor="let message of messages" class="message-container"
+             [ngClass]="{'user-message': message.sender.toLowerCase() === 'user', 'bot-message': message.sender.toLowerCase() === 'bot'}">
+          <span *ngIf="message.sender.toLowerCase() === 'bot'" class="icon is-small bot-icon">
+            <img src="bot.png" alt="Bot Icon">
+          </span>
+          <div class="message p-3 mb-3"
+               [ngClass]="{'has-background-info-light': message.sender.toLowerCase() === 'user', 'has-background-light': message.sender.toLowerCase() === 'bot'}">
+            <span class="message-text">{{ message.text }}</span>
+          </div>
+          <span *ngIf="message.sender.toLowerCase() === 'user'" class="icon is-small user-icon">
+            <img src="user.png" alt="User Icon">
+          </span>
+        </div>
+      </div>
+
+      <!-- Input and Buttons -->
+      <div class="input-container">
+        <input [(ngModel)]="query" type="text" placeholder="Type your message..." class="input">
+        <button (click)="sendQuery()" class="button is-primary send-button">
+          <img src="send.png" alt="Send" class="icon">
+        </button>
+      </div>
     </div>
   </div>
-  
+</div>
